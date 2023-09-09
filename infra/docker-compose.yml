@@ -41,7 +41,7 @@ services:
     image: dianayusupova/foodgram_nginx
     container_name: foodgram-nginx
     ports:
-      - 7000:80
+      - '80:80'
     volumes:
       - ../frontend/build:/usr/share/nginx/html/
       - static_data:/var/html/static/
