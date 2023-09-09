@@ -1,3 +1,4 @@
+"""Модуль проверки авторства или административных прав API."""
 from rest_framework import permissions
 
 

@@ -1,3 +1,5 @@
+"""Модуль admin определяет настройки для административной части."""
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
@@ -9,34 +11,34 @@ class CustomUserAdmin(UserAdmin):
     """Кастомный админский класс для модели User."""
 
     list_display = (
-        'username',
-        'email',
-        'first_name',
-        'last_name',
-        'is_staff',
-        'date_joined',
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+        "date_joined",
     )
-    search_fields = ('username', 'email', 'first_name', 'last_name')
-    ordering = ('-date_joined',)
+    search_fields = ("username", "email", "first_name", "last_name")
+    ordering = ("-date_joined",)
     filter_horizontal = ()
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal Info', {'fields': ('first_name', 'last_name', 'email')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        (None, {"fields": ("username", "password")}),
+        ("Personal Info", {"fields": ("first_name", "last_name", "email")}),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
         (
             None,
             {
-                'classes': ('wide',),
-                'fields': (
-                    'username',
-                    'email',
-                    'first_name',
-                    'last_name',
-                    'password1',
-                    'password2',
+                "classes": ("wide",),
+                "fields": (
+                    "username",
+                    "email",
+                    "first_name",
+                    "last_name",
+                    "password1",
+                    "password2",
                 ),
             },
         ),
@@ -50,5 +52,5 @@ class SubscriptionAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         """Получает кастомный QuerySet для списка подписок в админке."""
         return (
-            super().get_queryset(request).select_related('follower', 'author')
+            super().get_queryset(request).select_related("follower", "author")
         )
