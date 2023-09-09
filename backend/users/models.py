@@ -1,13 +1,17 @@
+"""Модуль, содержащий модели Django-приложения users."""
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models import Q, F
 
 
 class User(AbstractUser):
+    """Модель пользователя."""
+
     email = models.EmailField(
         max_length=254,
         unique=True,
+        blank=False,
+        null=False,
         verbose_name="Email",
     )
     username = models.CharField(
@@ -30,38 +34,38 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ["username"]
 
     class Meta:
-        ordering = ['id']
+        """Метакласс модели пользователя."""
+
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
     def __str__(self):
+        """Возвращает строковое представление объекта."""
         return self.username
 
 
 class Subscription(models.Model):
+    """Модель подписки."""
+
     follower = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='follower',
-        verbose_name='Подписчик',
+        related_name="following",
+        verbose_name="Подписчик",
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='following',
+        related_name="followers",
         verbose_name="Автор",
     )
 
     class Meta:
-        ordering = ['-id']
+        """Метакласс модели подписки."""
+
         verbose_name = "Подписка"
         verbose_name_plural = "Подписки"
-        constraints = [
-            models.UniqueConstraint(
-                fields=['follower', 'author'], name='unique_follow'
-            ),
-            models.CheckConstraint(
-                check=~Q(following=F('follower')),
-                name='fields_must not be equal'
-            ),
-        ]
+
+    def __str__(self):
+        """Возвращает строковое представление объекта."""
+        return f"{self.follower.username} follows {self.author.username}"
