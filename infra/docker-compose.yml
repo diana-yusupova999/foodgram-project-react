@@ -7,23 +7,23 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   backend:
-    build: ../backend/
-    env_file: ./.env
+    image: dianayusupova/foodgram_backend
+    env_file: ../.env
     volumes:
-      - static:/app/static
-      - media:/app/media
+      - static:/app/static/
+      - media:/app/media/
     depends_on:
       - db
 
   frontend:
-    image: foodgram_frontend
+    image: dianayusupova/foodgram_frontend
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
       - backend
 
   nginx:
-    image: foodgram_nginx
+    image: dianayusupova/foodgram_nginx
     env_file: ../.env
     ports:
       - "7000:80"

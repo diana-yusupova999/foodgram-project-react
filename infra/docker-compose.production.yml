@@ -19,7 +19,7 @@ services:
 
 
   backend:
-    image: foodgram_backend
+    image: dianayusupova/foodgram_backend
     container_name: foodgram-backend
     env_file: ../.env
     depends_on:
@@ -32,14 +32,14 @@ services:
 
 
   frontend:
-    image: foodgram_frontend
+    image: dianayusupova/foodgram_frontend
     container_name: foodgram-frontend
     volumes:
       - ../frontend/:/app/result_build/
 
 
   nginx:
-    image: foodgram_nginx
+    image: dianayusupova/foodgram_nginx
     container_name: foodgram-nginx
     ports:
       - 7000:80
