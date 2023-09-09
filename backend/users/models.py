@@ -1,36 +1,38 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import Q, F
 
 
 class User(AbstractUser):
     email = models.EmailField(
-        verbose_name='Адрес электронной почты',
         max_length=254,
-        unique=True
+        unique=True,
+        verbose_name="Email",
     )
     username = models.CharField(
-        verbose_name='Уникальный юзернейм',
-        max_length=150, unique=True,
-    )
-    first_name = models.CharField(
-        verbose_name='Имя',
         max_length=150,
+        unique=True,
+        validators=[
+            RegexValidator(
+                r"^[\w.@+-]+$",
+                "Используйте только буквы, цифры и символы @/./+/-/_",
+                "invalid_username",
+            )
+        ],
+        verbose_name="Username",
     )
-    last_name = models.CharField(
-        verbose_name='Фамилия',
-        max_length=150, blank=True,
-    )
-    is_subscribed = models.BooleanField(
-        verbose_name='Подписан',
-        default=False,
-    )
+    first_name = models.CharField(max_length=150, verbose_name="Имя")
+    last_name = models.CharField(max_length=150, verbose_name="Фамилия")
+    is_subscribed = models.BooleanField(default=False, verbose_name="Подписан")
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     class Meta:
         ordering = ['id']
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
     def __str__(self):
         return self.username
@@ -52,6 +54,8 @@ class Subscription(models.Model):
 
     class Meta:
         ordering = ['-id']
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
         constraints = [
             models.UniqueConstraint(
                 fields=['follower', 'author'], name='unique_follow'
