@@ -35,13 +35,13 @@ paths:
                     type: string
                     nullable: true
                     format: uri
-                    example: http://foodgram.example.org/api/users/?page=4
+                    example: http://foodgramm.example.org/api/users/?page=4
                     description: 'Ссылка на следующую страницу'
                   previous:
                     type: string
                     nullable: true
                     format: uri
-                    example: http://foodgram.example.org/api/users/?page=2
+                    example: http://foodgramm.example.org/api/users/?page=2
                     description: 'Ссылка на предыдущую страницу'
                   results:
                     type: array
@@ -171,13 +171,13 @@ paths:
                     type: string
                     nullable: true
                     format: uri
-                    example: http://foodgram.example.org/api/recipes/?page=4
+                    example: http://foodgramm.example.org/api/recipes/?page=4
                     description: 'Ссылка на следующую страницу'
                   previous:
                     type: string
                     nullable: true
                     format: uri
-                    example: http://foodgram.example.org/api/recipes/?page=2
+                    example: http://foodgramm.example.org/api/recipes/?page=2
                     description: 'Ссылка на предыдущую страницу'
                   results:
                     type: array
@@ -511,13 +511,13 @@ paths:
                     type: string
                     nullable: true
                     format: uri
-                    example: http://foodgram.example.org/api/users/subscriptions/?page=4
+                    example: http://foodgramm.example.org/api/users/subscriptions/?page=4
                     description: 'Ссылка на следующую страницу'
                   previous:
                     type: string
                     nullable: true
                     format: uri
-                    example: http://foodgram.example.org/api/users/subscriptions/?page=2
+                    example: http://foodgramm.example.org/api/users/subscriptions/?page=2
                     description: 'Ссылка на предыдущую страницу'
                   results:
                     type: array
@@ -605,7 +605,7 @@ paths:
           in: query
           description: Поиск по частичному вхождению в начале названия ингредиента.
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           content:
@@ -627,7 +627,7 @@ paths:
           required: true
           description: ''
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           content:
@@ -825,7 +825,7 @@ components:
           description: 'Название'
         image:
           description: 'Ссылка на картинку на сайте'
-          example: 'http://foodgram.example.org/media/recipes/images/image.jpeg'
+          example: 'http://foodgramm.example.org/media/recipes/images/image.jpeg'
           type: string
           format: url
         text:
@@ -857,7 +857,7 @@ components:
           description: 'Название'
         image:
           description: 'Ссылка на картинку на сайте'
-          example: 'http://foodgram.example.org/media/recipes/images/image.jpeg'
+          example: 'http://foodgramm.example.org/media/recipes/images/image.jpeg'
           type: string
           format: url
         cooking_time:
