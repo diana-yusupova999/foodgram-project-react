@@ -57,6 +57,7 @@ class Subscription(models.Model):
                 fields=['follower', 'author'], name='unique_follow'
             ),
             models.CheckConstraint(
-                check=~Q(following=F('follower')), name='fields_must not be equal'
+                check=~Q(following=F('follower')),
+                name='fields_must not be equal'
             ),
         ]

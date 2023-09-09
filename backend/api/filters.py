@@ -1,5 +1,4 @@
 from django_filters import rest_framework as django_filters
-
 from django.contrib.auth import get_user_model
 
 from ..recipes.models import Ingredient, Recipe, Tag
