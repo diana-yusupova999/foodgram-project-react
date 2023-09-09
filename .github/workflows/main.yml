@@ -45,13 +45,13 @@ jobs:
         with:
           push: true
           context: ./backend
-          tags: kazuru/foodgram:latest
+          tags: dianayusupova/foodgram:latest
       - name: Push frontend to Docker Hub
         uses: docker/build-push-action@v2
         with:
           context: ./frontend
           push: true
-          tags: kazuru/foodgram_frontend:latest
+          tags: dianayusupova/foodgram_frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -65,8 +65,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            sudo docker pull kazuru/foodgram_frontend:latest
-            sudo docker pull kazuru/foodgram:latest
+            sudo docker pull dianayusupova/foodgram_frontend:latest
+            sudo docker pull dianayusupova/foodgram:latest
             sudo docker-compose stop
             sudo docker-compose rm -f backend --build
             rm .env
@@ -88,4 +88,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ github.workflow }} успешно выполнен!
+          message: Деплой foodgram успешно выполнен!
