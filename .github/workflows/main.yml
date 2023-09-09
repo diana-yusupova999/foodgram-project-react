@@ -76,7 +76,7 @@ jobs:
         with:
           context: ./frontend/
           push: true
-          tags: filosf/foodgram_frontend:latest
+          tags: foodgram_frontend:latest
 
   build_nginx_and_push_to_docker_hub:
     name: Push nginx Docker image to DockerHub
@@ -96,7 +96,7 @@ jobs:
         with:
           context: ./infra/
           push: true
-          tags: filosf/foodgram_nginx:latest
+          tags: foodgram_nginx:latest
 
   deploy:
     name: Deploying on remote server
