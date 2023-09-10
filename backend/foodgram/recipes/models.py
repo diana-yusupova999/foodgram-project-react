@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from colorfield.fields import ColorField
 
-from recipes.validators import validate_username
+from .validators import validate_username
 
 
 class User(AbstractUser):

@@ -2,7 +2,7 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from recipes.models import (Ingredient, Recipe, RecipeIngredients, Tag, User,
+from ..recipes.models import (Ingredient, Recipe, RecipeIngredients, Tag, User,
                             Subscription)
 from .utils import recipe_ingredient_create
 

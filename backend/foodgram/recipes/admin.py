@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredients,
+from models import (Favorite, Ingredient, Recipe, RecipeIngredients,
                             ShoppingList, Tag, User, Subscription)
 
 

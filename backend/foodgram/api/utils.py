@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 
-from recipes.models import Recipe
+from ..recipes.models import Recipe
 
 
 def add_favorite_shoppinglist(request, pk, model, serializer):

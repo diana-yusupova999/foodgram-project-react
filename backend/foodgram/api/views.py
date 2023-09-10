@@ -17,15 +17,15 @@ from rest_framework.generics import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import action
 
-from api.serializers import (TagSerializer, UserSerializer, RecipeSerializer,
+from serializers import (TagSerializer, UserSerializer, RecipeSerializer,
                              IngredientSerializer, FollowSerializer,
                              RecipeGetSerializer, RecipeFollowSerializer,)
-from api.permissions import IsAuthorOrReadOnly
-from recipes.models import (Tag, User, Recipe, Ingredient, Favorite,
+from permissions import IsAuthorOrReadOnly
+from ..recipes.models import (Tag, User, Recipe, Ingredient, Favorite,
                             ShoppingList, Subscription, RecipeIngredients)
-from api.utils import (add_favorite_shoppinglist, remove_favorite_shoppinglist)
-from api.filters import RecipeFilter, IngredientFilter
-from api.paginations import CastomPagination
+from utils import (add_favorite_shoppinglist, remove_favorite_shoppinglist)
+from filters import RecipeFilter, IngredientFilter
+from paginations import CastomPagination
 
 
 class ShoppingListDownloadView(APIView):
