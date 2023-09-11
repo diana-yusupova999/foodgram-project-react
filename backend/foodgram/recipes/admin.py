@@ -1,8 +1,16 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from models import (Favorite, Ingredient, Recipe, RecipeIngredients,
-                            ShoppingList, Tag, User, Subscription)
+from recipes.models import (
+    Favorite,
+    Ingredient,
+    Recipe,
+    RecipeIngredients,
+    ShoppingList,
+    Tag,
+    User,
+    Subscription
+)
 
 
 class TagInline(admin.TabularInline):

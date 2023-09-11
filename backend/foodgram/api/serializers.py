@@ -2,8 +2,15 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from ..recipes.models import (Ingredient, Recipe, RecipeIngredients, Tag, User,
-                            Subscription)
+from config.check import *
+from recipes.models import (
+    Ingredient,
+    Recipe,
+    RecipeIngredients,
+    Tag,
+    User,
+    Subscription
+)
 from .utils import recipe_ingredient_create
 
 
@@ -150,7 +157,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Нельзя выбрать ингредиент более одного раза"
             )
-        if len(ingredients_list) == 0:
+        if is_list_empty(ingredients_list):
             raise serializers.ValidationError(
                 "Рецепт не бывает без ингридиентов"
             )

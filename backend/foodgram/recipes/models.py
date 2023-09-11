@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from colorfield.fields import ColorField
 
-from .validators import validate_username
+from recipes.validators import validate_username
+from config.parametrs import *
 
 
 class User(AbstractUser):
@@ -17,36 +18,36 @@ class User(AbstractUser):
     ]
     username = models.CharField(
         validators=(validate_username,),
-        max_length=150,
+        max_length=MAX_NAME,
         verbose_name="Имя пользователя",
         unique=True,
     )
     email = models.EmailField(
-        max_length=254,
+        max_length=MAX_EMAIL,
         verbose_name="Электронная почта",
         unique=True,
     )
     first_name = models.CharField(
-        max_length=150,
+        max_length=MAX_NAME,
         verbose_name="Имя",
     )
     last_name = models.CharField(
-        max_length=150,
+        max_length=MAX_NAME,
         verbose_name="Фамилия",
     )
     password = models.CharField(
-        max_length=150,
+        max_length=MAX_NAME,
         verbose_name="Пароль",
     )
     role = models.CharField(
-        max_length=20,
+        max_length=MAX_ROLE,
         verbose_name="Роль",
         default=USER,
         choices=USER_ROLES
     )
 
     class Meta:
-        ordering = ("id",)
+        ordering = ("username",)
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
@@ -68,12 +69,12 @@ class User(AbstractUser):
 class Tag(models.Model):
     """Модель тегов."""
     name = models.CharField(
-        max_length=200,
+        max_length=MAX_LENGTH,
         unique=True,
         verbose_name="Название тега")
     color = ColorField(default='#FF0000')
     slug = models.SlugField(
-        max_length=200,
+        max_length=MAX_LENGTH,
         unique=True,
         verbose_name="Идентификатор тега")
 
@@ -89,10 +90,10 @@ class Tag(models.Model):
 class Ingredient(models.Model):
     """Модель ингредиентов."""
     name = models.CharField(
-        max_length=200,
+        max_length=MAX_LENGTH,
         verbose_name="Название ингредиента")
     measurement_unit = models.CharField(
-        max_length=200,
+        max_length=MAX_LENGTH,
         verbose_name="Единица измерения ингредиента")
 
     class Meta:
@@ -116,7 +117,7 @@ class Recipe(models.Model):
         related_name="recipe",
         verbose_name="Автор рецепта")
     name = models.CharField(
-        max_length=200,
+        max_length=MAX_LENGTH,
         unique=True,
         verbose_name="Название рецепта")
     image = models.ImageField(
@@ -140,7 +141,7 @@ class Recipe(models.Model):
     cooking_time = models.PositiveSmallIntegerField(
         validators=[
             MinValueValidator(1, "Минимум"),
-            MaxValueValidator(600, "Максимум")
+            MaxValueValidator(MAX_COOKING_TIME, "Максимум")
         ],
         blank=True,
         null=True,

@@ -1,8 +1,13 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from views import (TagViewSet, CustomUserViewSet, RecipeViewSet,
-                       IngredientViwsSet, ShoppingListDownloadView)
+from api.views import (
+    TagViewSet,
+    CustomUserViewSet,
+    RecipeViewSet,
+    IngredientViwsSet,
+    ShoppingListDownloadView
+)
 
 
 app_name = 'api'
