@@ -4,7 +4,14 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from colorfield.fields import ColorField
 
 from recipes.validators import validate_username
-from config.parametrs import *
+from config.parametrs import (
+    MAX_NAME,
+    MAX_ROLE,
+    MAX_EMAIL,
+    MAX_LENGTH,
+    MAX_COOKING_TIME,
+    LEN_INGREDIENTS
+)
 
 
 class User(AbstractUser):

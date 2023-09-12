@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from django.db import transaction
 
-from config.check import *
+from config.check import is_list_empty
 from recipes.models import (
     Ingredient,
     Recipe,
@@ -41,7 +41,9 @@ class UserSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request is None or request.user.is_anonymous:
             return False
-        return Subscription.objects.filter(user=request.user, author=obj).exists()
+        return Subscription.objects.filter(
+            user=request.user, author=obj
+        ).exists()
 
 
 class RecipeFollowSerializer(serializers.ModelSerializer):
