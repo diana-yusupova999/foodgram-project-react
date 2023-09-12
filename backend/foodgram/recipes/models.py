@@ -9,8 +9,7 @@ from config.parametrs import (
     MAX_ROLE,
     MAX_EMAIL,
     MAX_LENGTH,
-    MAX_COOKING_TIME,
-    LEN_INGREDIENTS
+    MAX_COOKING_TIME
 )
 
 
