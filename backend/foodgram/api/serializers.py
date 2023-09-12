@@ -1,6 +1,7 @@
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+from django.db import transaction
 
 from config.check import *
 from recipes.models import (
@@ -37,10 +38,10 @@ class UserSerializer(serializers.ModelSerializer):
                   "last_name", "is_subscribed")
 
     def get_is_subscribed(self, obj):
-        user = self.context["request"].user
-        if user.is_anonymous:
+        request = self.context.get("request")
+        if request is None or request.user.is_anonymous:
             return False
-        return Subscription.objects.filter(user=user, author=obj).exists()
+        return Subscription.objects.filter(user=request.user, author=obj).exists()
 
 
 class RecipeFollowSerializer(serializers.ModelSerializer):
@@ -117,10 +118,10 @@ class RecipeGetSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "author",)
 
     def get_favorite_status(self, queryset):
-        user = self.context["request"].user
-        if user.is_anonymous:
+        request = self.context.get("request")
+        if not request or request.user.is_anonymous:
             return False
-        return queryset.filter(user=user).exists()
+        return queryset.filter(user=request.user).exists()
 
     def get_is_favorited(self, obj):
         return self.get_favorite_status(obj.favorite_recipe)
@@ -163,6 +164,14 @@ class RecipeSerializer(serializers.ModelSerializer):
             )
         return data
 
+    def validate_cooking_time(self, time):
+        if int(time) < 1:
+            raise serializers.ValidationError(
+                "Минимальное время минута"
+            )
+        return time
+
+    @transaction.atomic()
     def create(self, validated_data):
         ingredients_data = validated_data.pop("ingredients")
         tags_data = validated_data.pop("tags")
@@ -171,6 +180,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         recipe_ingredient_create(ingredients_data, RecipeIngredients, recipe)
         return recipe
 
+    @transaction.atomic()
     def update(self, instance, validated_data):
         if "tags" in self.validated_data:
             tags_data = validated_data.pop("tags")
