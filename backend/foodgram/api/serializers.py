@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from django.db import transaction
 
-from config.check import is_list_empty
+from config.check import is_list_empty, MIN_VALUE
 from recipes.models import (
     Ingredient,
     Recipe,
@@ -153,7 +153,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                   "cooking_time", "image")
         read_only_fields = ("id", "author", "tags")
 
-    def validate(self, data):
+    def validate_ingredients(self, data):
         ingredients = self.initial_data.get("ingredients")
         ingredients_list = [ingredient['id'] for ingredient in ingredients]
         if len(ingredients_list) != len(set(ingredients_list)):
@@ -164,12 +164,17 @@ class RecipeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Рецепт не бывает без ингридиентов"
             )
+        for ingredient in ingredients_list:
+            if int(ingredient['amount']) < MIN_VALUE :
+                raise serializers.ValidationError(
+                    "Минимальное количество ингредиентов 1"
+                )
         return data
 
     def validate_cooking_time(self, time):
-        if int(time) < 1:
+        if int(time) < MIN_VALUE:
             raise serializers.ValidationError(
-                "Минимальное время минута"
+                "Минимальное время готовки = 1 минута"
             )
         return time
 

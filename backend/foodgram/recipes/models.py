@@ -9,7 +9,8 @@ from config.parametrs import (
     MAX_ROLE,
     MAX_EMAIL,
     MAX_LENGTH,
-    MAX_COOKING_TIME
+    MAX_COOKING_TIME,
+    MIN_VALUE
 )
 
 
@@ -146,7 +147,7 @@ class Recipe(models.Model):
         verbose_name="Тег к рецепту")
     cooking_time = models.PositiveSmallIntegerField(
         validators=[
-            MinValueValidator(1, "Минимум"),
+            MinValueValidator(MIN_VALUE, "Минимум"),
             MaxValueValidator(MAX_COOKING_TIME, "Максимум")
         ],
         blank=True,
