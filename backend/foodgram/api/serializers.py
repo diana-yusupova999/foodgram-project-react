@@ -13,6 +13,7 @@ from recipes.models import (
     Subscription
 )
 from .utils import recipe_ingredient_create
+from .validators import cooking_time_validator
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -172,11 +173,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         return data
 
     def validate_cooking_time(self, time):
-        if int(time) < MIN_VALUE:
-            raise serializers.ValidationError(
-                "Минимальное время готовки = 1 минута"
-            )
-        return time
+        return cooking_time_validator(time)
 
     @transaction.atomic()
     def create(self, validated_data):
