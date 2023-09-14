@@ -166,7 +166,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 "Рецепт не бывает без ингридиентов"
             )
         for ingredient in ingredients_list:
-            if int(ingredient['amount']) < MIN_VALUE :
+            if int(ingredient['amount']) < MIN_VALUE:
                 raise serializers.ValidationError(
                     "Минимальное количество ингредиентов 1"
                 )
