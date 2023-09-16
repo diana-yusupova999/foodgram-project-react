@@ -166,8 +166,8 @@ class RecipeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Рецепт не бывает без ингридиентов"
             )
-        for ingredient in ingredients_list:
-            amount_validator(ingredient['amount'])
+        for amount in ingredients_list:
+            amount_validator(amount)
         return data
 
     def validate_cooking_time(self, time):
