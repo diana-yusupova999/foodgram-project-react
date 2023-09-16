@@ -3,7 +3,9 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from django.db import transaction
 
-from config.check import is_list_empty, MIN_VALUE
+from config.parametrs import MIN_VALUE
+from config.check import is_list_empty
+from config.validators import cooking_time_validator, amount_validator
 from recipes.models import (
     Ingredient,
     Recipe,
@@ -13,7 +15,6 @@ from recipes.models import (
     Subscription
 )
 from .utils import recipe_ingredient_create
-from .validators import cooking_time_validator
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -94,7 +95,7 @@ class IngredientRecipeGetSerializer(serializers.ModelSerializer):
 
 class IngredientRecipeSerializer(serializers.ModelSerializer):
     recipe = serializers.PrimaryKeyRelatedField(read_only=True)
-    amount = serializers.IntegerField(write_only=True, min_value=1)
+    amount = serializers.IntegerField(write_only=True, min_value=MIN_VALUE)
     id = serializers.PrimaryKeyRelatedField(
         source="ingredient",
         queryset=Ingredient.objects.all()
@@ -146,7 +147,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         many=True,
     )
     image = Base64ImageField()
-    cooking_time = serializers.IntegerField(min_value=1)
+    cooking_time = serializers.IntegerField(min_value=MIN_VALUE)
 
     class Meta:
         model = Recipe
@@ -166,14 +167,12 @@ class RecipeSerializer(serializers.ModelSerializer):
                 "Рецепт не бывает без ингридиентов"
             )
         for ingredient in ingredients_list:
-            if int(ingredient['amount']) < MIN_VALUE:
-                raise serializers.ValidationError(
-                    "Минимальное количество ингредиентов 1"
-                )
+            amount_validator(ingredient['amount'])
         return data
 
     def validate_cooking_time(self, time):
-        return cooking_time_validator(time)
+        cooking_time_validator(time)
+        return time
 
     @transaction.atomic()
     def create(self, validated_data):

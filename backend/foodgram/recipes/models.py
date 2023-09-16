@@ -1,16 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator, MaxValueValidator
 from colorfield.fields import ColorField
 
+from config.validators import cooking_time_validator, amount_validator
 from recipes.validators import validate_username
 from config.parametrs import (
     MAX_NAME,
     MAX_ROLE,
     MAX_EMAIL,
     MAX_LENGTH,
-    MAX_COOKING_TIME,
-    MIN_VALUE
 )
 
 
@@ -146,10 +144,7 @@ class Recipe(models.Model):
         related_name="tags",
         verbose_name="Тег к рецепту")
     cooking_time = models.PositiveSmallIntegerField(
-        validators=[
-            MinValueValidator(MIN_VALUE, "Минимум"),
-            MaxValueValidator(MAX_COOKING_TIME, "Максимум")
-        ],
+        validators=(cooking_time_validator,),
         blank=True,
         null=True,
         verbose_name="Время приготовления (в минутах)")
@@ -180,7 +175,7 @@ class RecipeIngredients(models.Model):
         related_name="recipe_ingredients",
         verbose_name="Игредиент")
     amount = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1, "Минимум")],
+        validators=(amount_validator,),
         verbose_name="Количество ингредиентов")
 
     class Meta:

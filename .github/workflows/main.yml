@@ -67,7 +67,7 @@ jobs:
         with:
           context: ./frontend/
           push: true
-          tags: dianayusupova/foodgram_frontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend:latest
 
   build_nginx_and_push_to_docker_hub:
     name: Push nginx Docker image to DockerHub
@@ -87,7 +87,7 @@ jobs:
         with:
           context: ./infra/
           push: true
-          tags: dianayusupova/foodgram_nginx:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_nginx:latest
 
   deploy:
     name: Deploying on remote server
@@ -100,8 +100,8 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
-    - name: Copy docker-compose.yml via ssh
-      uses: appleboy/scp-action@master
+    - name: Copy docker-compose.production.yml via ssh
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
@@ -126,3 +126,15 @@ jobs:
           sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic --no-input
           sudo docker compose -f docker-compose.production.yml exec backend mkdir -p /static/static/
           sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/static/. /static/static/
+
+  send_message:
+    name: Send message to telegram
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Send message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: Деплой kittygram успешно выполнен!
