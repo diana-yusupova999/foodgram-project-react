@@ -73,6 +73,9 @@ class FollowSerializer(UserSerializer):
             queryset = queryset[:int(limit)]
         return RecipeFollowSerializer(queryset, many=True).data
 
+    def get_recipes_count(self, obj) -> int:
+        return obj.recipes.count()
+
 
 class IngredientRecipeGetSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(source="ingredient.id",
@@ -168,7 +171,6 @@ class RecipeSerializer(serializers.ModelSerializer):
             )
         for amount in ingredients_list:
             amount_validator(amount)
-        data["ingredients"] = ingredients
         return data
 
     def validate_cooking_time(self, time):
