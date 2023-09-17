@@ -58,7 +58,7 @@ class RecipeFollowSerializer(serializers.ModelSerializer):
 
 class FollowSerializer(UserSerializer):
     recipes = serializers.SerializerMethodField()
-    recipes_count = serializers.ReadOnlyField(source='author.recipes.count')
+    recipes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -73,8 +73,8 @@ class FollowSerializer(UserSerializer):
             queryset = queryset[:int(limit)]
         return RecipeFollowSerializer(queryset, many=True).data
 
-    def get_recipes_count(self, obj) -> int:
-        return obj.recipes.count()
+    def get_recipes_count(self, obj):
+        return Recipe.objects.filter(author=obj).count()
 
 
 class IngredientRecipeGetSerializer(serializers.ModelSerializer):
@@ -165,11 +165,10 @@ class RecipeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Нельзя выбрать ингредиент более одного раза"
             )
-        if len(ingredients_list) == 0:
+        if is_list_empty(ingredients_list):
             raise serializers.ValidationError(
                 "Рецепт не бывает без ингридиентов"
             )
-
         for amount in ingredients_list:
             amount_validator(amount)
         return data
