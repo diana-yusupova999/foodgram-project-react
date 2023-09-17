@@ -53,9 +53,10 @@ class UserAdmin(UserAdmin):
     empty_value_display = "-пусто-"
 
 
-@admin.register(Ingredient)
-class IngredientAdmin(admin.ModelAdmin):
-    search_fields = ("name",)
+# @admin.register(Ingredient)
+# class IngredientAdmin(admin.ModelAdmin):
+#     list_display = ("name", "measurement_unit",)
+#     search_fields = ("name",)
 
 
 admin.site.register(Tag)
