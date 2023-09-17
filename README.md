@@ -1,3 +1,6 @@
+## Ссылка на сайт
+https://foodgramyus.ddns.net/
+
 ## Технологии:
 
 - Python

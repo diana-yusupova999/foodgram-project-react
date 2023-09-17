@@ -168,6 +168,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             )
         for amount in ingredients_list:
             amount_validator(amount)
+        data["ingredients"] = ingredients
         return data
 
     def validate_cooking_time(self, time):
