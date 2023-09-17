@@ -25,8 +25,14 @@ class IngredientInline(admin.TabularInline):
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "author", "count_favorites",)
-    search_fields = ("author__username", "author__email",
-                     "author__first_name", "author__last_name",)
+    search_fields = (
+        "author__username",
+        "author__email",
+        "author__first_name",
+        "author__last_name",
+        "author__tags",
+        "author__name",
+    )
     list_filter = ("author", "name", "tags",)
     ordering = ("name",)
     empty_value_display = "-пусто-"
@@ -45,6 +51,11 @@ class UserAdmin(UserAdmin):
     list_filter = ("email", "username")
     ordering = ("id",)
     empty_value_display = "-пусто-"
+
+
+@admin.register(Ingredient)
+class IngredientAdmin(admin.ModelAdmin):
+    search_fields = ("name",)
 
 
 admin.site.register(Tag)
