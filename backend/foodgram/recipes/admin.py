@@ -53,16 +53,34 @@ class UserAdmin(UserAdmin):
     empty_value_display = "-пусто-"
 
 
-# @admin.register(Ingredient)
-# class IngredientAdmin(admin.ModelAdmin):
-#     list_display = ("name", "measurement_unit",)
-#     search_fields = ("name",)
+@admin.register(Ingredient)
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ("name", "measurement_unit",)
+    search_fields = ("name", "measurement_unit",)
+
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ("user", "recipe",)
+    search_fields = ("user",)
+
+
+@admin.register(ShoppingList)
+class ShoppingListAdmin(admin.ModelAdmin):
+    list_display = ("user", "recipe",)
+    search_fields = ("user",)
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ("author", "user",)
+    search_fields = ("user", "author",)
 
 
 admin.site.register(Tag)
-admin.site.register(Ingredient)
 admin.site.register(RecipeIngredients)
-admin.site.register(Favorite)
-admin.site.register(ShoppingList)
+# admin.site.register(Favorite)
+# admin.site.register(ShoppingList)
+# admin.site.register(Subscription)
+# admin.site.register(Ingredient)
 admin.site.register(User, UserAdmin)
-admin.site.register(Subscription)
