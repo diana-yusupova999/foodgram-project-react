@@ -158,17 +158,18 @@ class RecipeSerializer(serializers.ModelSerializer):
                   "cooking_time", "image")
         read_only_fields = ("id", "author", "tags")
 
-    def validate_ingredients(self, data):
+    def validate(self, data):
         ingredients = self.initial_data.get("ingredients")
         ingredients_list = [ingredient['id'] for ingredient in ingredients]
         if len(ingredients_list) != len(set(ingredients_list)):
             raise serializers.ValidationError(
                 "Нельзя выбрать ингредиент более одного раза"
             )
-        if is_list_empty(ingredients_list):
+        if len(ingredients_list) == 0:
             raise serializers.ValidationError(
                 "Рецепт не бывает без ингридиентов"
             )
+
         for amount in ingredients_list:
             amount_validator(amount)
         return data
