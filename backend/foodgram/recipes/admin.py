@@ -30,8 +30,8 @@ class RecipeAdmin(admin.ModelAdmin):
         "author__email",
         "author__first_name",
         "author__last_name",
-        "author__tags",
-        "author__name",
+        "tags__name",
+        "name",
     )
     list_filter = ("author", "name", "tags",)
     ordering = ("name",)
@@ -41,7 +41,7 @@ class RecipeAdmin(admin.ModelAdmin):
     def count_favorites(self, obj):
         return Favorite.objects.filter(recipe=obj).count()
 
-    count_favorites.short_description = 'Количество избранных'
+    count_favorites.short_description = "Количество избранных"
 
 
 class UserAdmin(UserAdmin):
@@ -62,23 +62,28 @@ class IngredientAdmin(admin.ModelAdmin):
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ("user", "recipe",)
-    search_fields = ("user",)
+    search_fields = ("user__username", "recipe__name",)
 
 
 @admin.register(ShoppingList)
 class ShoppingListAdmin(admin.ModelAdmin):
     list_display = ("user", "recipe",)
-    search_fields = ("user",)
+    search_fields = ("user__username", "recipe__name",)
 
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display = ("author", "user",)
-    search_fields = ("user", "author",)
+    search_fields = ("author__username", "user__username")
+
+
+@admin.register(RecipeIngredients)
+class RecipeIngredientsAdmin(admin.ModelAdmin):
+    list_display = ("recipe", "ingredient", "amount",)
 
 
 admin.site.register(Tag)
-admin.site.register(RecipeIngredients)
+# admin.site.register(RecipeIngredients)
 # admin.site.register(Favorite)
 # admin.site.register(ShoppingList)
 # admin.site.register(Subscription)
